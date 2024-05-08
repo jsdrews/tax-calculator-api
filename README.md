@@ -42,4 +42,4 @@ curl -X GET "http://localhost:8080/tax-calculator?income=100000&year=2022"
 The API documentation can be found at http://localhost:8080/docs in your browser.
 
 ## Contributing
---8<-- "CONTRIBUTING.md"
+[Contributing](CONTRIBUTING.md)
