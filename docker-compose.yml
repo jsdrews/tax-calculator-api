@@ -1,0 +1,33 @@
+version: '3.2'
+
+services:
+
+  interview-test-server:
+    image: ptsdocker16/interview-test-server
+    hostname: ${TEST_SERVER_HOST}
+    privileged: true
+    expose:
+      - "5001"
+    ports:
+      - "5001:5001"
+    env_file: .env
+    networks:
+      - network
+
+  tax-calculator-api:
+    build: src
+    depends_on:
+      - interview-test-server
+    working_dir: /api
+    volumes:
+      - ./src:/api
+    ports:
+      - "${API_PORT}:8888"
+    expose:
+      - "${API_PORT}"
+    env_file: .env
+    networks:
+      - network
+
+networks:
+  network:

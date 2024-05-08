@@ -1,0 +1,56 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task -a
+    silent: true
+
+  up:
+    cmds:
+      - docker compose up -d
+    silent: true
+
+  down:
+    cmds:
+      - docker compose down
+    silent: true
+
+  restart:
+    cmds:
+      - docker compose restart
+
+  purge:
+    cmds:
+      - docker compose down --rmi local
+    silent: true
+
+  ps:
+    cmds:
+      - docker compose ps -a
+    silent: true
+
+  test:
+    dir: src
+    dotenv: ['../.env']
+    cmds:
+      - poetry run coverage run -m pytest --disable-warnings -vvv tests/
+      - poetry run coverage report -m --fail-under=60
+    silent: true
+
+  format:
+    dir: src
+    cmds:
+      - poetry run black app
+    silent: true
+
+  logs:
+    cmds:
+      - |
+        {{ if .CLI_ARGS}}
+        docker-compose logs -f {{ .CLI_ARGS }}
+        {{ else }}
+        docker-compose logs -f tax-calculator-api
+        {{ end }}
